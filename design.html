@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Arahan reka bentuk - Papan Kawalan Hermes</title>
+<meta name="description" content="Fail DESIGN.md yang menjadi sumber hala tuju sebelum papan ini dibina. Disalin ke halaman ini supaya boleh dibaca terus.">
 <style>
 :root {
   --bg: #14110D;
@@ -19,6 +20,7 @@
   --line-kuat: #7A6C58;
   --langit: 20px;
   --radius: 6px;
+  --nav-bawah: 66px;
 }
 html[data-tema="cerah"] {
   --bg: #FAF6EF;
@@ -63,9 +65,9 @@ a:hover { text-decoration-thickness: 2px; }
 .skip:focus { left: 12px; top: 12px; }
 .wrap { max-width: 1140px; margin: 0 auto; padding: 0 var(--langit) 72px; }
 
-header.masthead { padding: 34px 0 20px; border-bottom: 1px solid var(--line); }
-.masthead .atas { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; justify-content: space-between; }
-.masthead h1 { font-size: clamp(1.6rem, 4.6vw, 2.3rem); }
+header.masthead { padding: 28px 0 18px; border-bottom: 1px solid var(--line); }
+.masthead .atas { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: space-between; }
+.masthead h1 { font-size: clamp(1.5rem, 4.4vw, 2.1rem); }
 .masthead .lede { color: var(--muted); max-width: 62ch; margin-top: 8px; }
 .tema {
   background: var(--surface); color: var(--text); border: 1px solid var(--line-kuat);
@@ -73,22 +75,39 @@ header.masthead { padding: 34px 0 20px; border-bottom: 1px solid var(--line); }
   min-height: 44px;
 }
 .tema:hover { background: var(--surface-2); }
-.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 16px; color: var(--muted); font-size: 0.84rem; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; color: var(--muted); font-size: 0.84rem; }
+.lompat { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; font-size: 0.9rem; }
+
+nav.bahagian { margin-top: 4px; border-bottom: 1px solid var(--line); }
+nav.bahagian ul { display: flex; flex-wrap: wrap; gap: 0 4px; }
+nav.bahagian a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px;
+  color: var(--muted); text-decoration: none; font-size: 0.88rem; letter-spacing: 0.02em;
+}
+nav.bahagian a:hover { color: var(--text); text-decoration: underline; }
+nav.bahagian a[aria-current="page"] { color: var(--text); }
+nav.bahagian a[aria-current="page"]::before {
+  content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--accent); margin-right: 8px;
+}
+nav.bawah { display: none; }
+nav.bawah a { color: var(--muted); text-decoration: none; }
+nav.bawah .titik { width: 8px; height: 8px; border-radius: 2px; background: var(--line-kuat); }
+nav.bawah a[aria-current="page"] { color: var(--text); }
+nav.bawah a[aria-current="page"] .titik { background: var(--accent); }
 
 .isyarat {
-  margin: 24px 0 8px; padding: 20px 22px; background: var(--surface);
+  margin: 22px 0 8px; padding: 18px 20px; background: var(--surface);
   border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: var(--radius);
 }
 .isyarat .label { color: var(--accent); font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; }
-.isyarat .utama-baris { font-family: "Noto Serif", Georgia, serif; font-size: clamp(1.2rem, 3.6vw, 1.6rem); margin-top: 6px; }
+.isyarat .utama-baris { font-family: "Noto Serif", Georgia, serif; font-size: clamp(1.15rem, 3.4vw, 1.5rem); margin-top: 6px; }
 .isyarat .jam { color: var(--accent); }
 .isyarat .bila { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
-.isyarat .giliran { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 12px; }
-.isyarat .giliran li { display: flex; flex-wrap: wrap; gap: 6px 12px; padding: 5px 0; font-size: 0.92rem; }
+.isyarat .giliran { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; }
+.isyarat .giliran li { display: flex; flex-wrap: wrap; gap: 6px 12px; padding: 4px 0; font-size: 0.92rem; }
 .isyarat .giliran .waktu { color: var(--muted); min-width: 8.5rem; }
 
-.kesehatan { margin-top: 18px; }
-.kesehatan p { font-size: 1.02rem; }
+.kesehatan { margin-top: 16px; }
 .panggil {
   margin-top: 14px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line);
   border-left: 3px solid var(--fail); border-radius: var(--radius);
@@ -98,20 +117,18 @@ header.masthead { padding: 34px 0 20px; border-bottom: 1px solid var(--line); }
 .panggil.empty { border-left-color: var(--line-kuat); }
 .panggil.empty h3 { color: var(--muted); }
 
-nav.isi { margin: 26px 0 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-nav.isi ul { display: flex; flex-wrap: wrap; gap: 0 6px; }
-nav.isi a {
-  display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px;
-  color: var(--muted); text-decoration: none; font-size: 0.88rem; letter-spacing: 0.02em;
-}
-nav.isi a:hover { color: var(--text); text-decoration: underline; }
-
-section { margin-top: 46px; scroll-margin-top: 18px; }
+section { margin-top: 34px; scroll-margin-top: 18px; }
 .kepala { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; justify-content: space-between;
   border-bottom: 3px double var(--line-kuat); padding-bottom: 8px; }
-.kepala h2 { font-size: 1.42rem; }
+.kepala h2 { font-size: 1.32rem; }
 .kepala .label { color: var(--muted); font-size: 0.8rem; letter-spacing: 0.06em; }
 section > .nota { color: var(--muted); font-size: 0.9rem; margin-top: 10px; max-width: 66ch; }
+
+ul.direktori { margin-top: 18px; border-top: 1px solid var(--line); }
+ul.direktori li { border-bottom: 1px solid var(--line); padding: 13px 0; display: grid; grid-template-columns: 1fr auto; gap: 3px 14px; align-items: baseline; }
+ul.direktori .nama { font-family: "Noto Serif", Georgia, serif; font-size: 1.06rem; }
+ul.direktori .kira { color: var(--muted); font-size: 0.84rem; white-space: nowrap; }
+ul.direktori .nota { grid-column: 1 / -1; color: var(--muted); font-size: 0.88rem; max-width: 70ch; }
 
 .tapis { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 18px 0 14px; }
 .tapis button {
@@ -147,26 +164,24 @@ table.job tr[data-failed="1"] td:first-child { color: var(--fail); }
 tr[data-failed="1"] .lamp { background: var(--fail); }
 details.ralat { margin-top: 8px; font-size: 0.84rem; }
 details.ralat summary { cursor: pointer; color: var(--fail); }
-details.ralat p { margin-top: 6px; color: var(--muted); }
+details.ralat p { margin-top: 6px; color: var(--muted); word-break: break-word; }
 tr[hidden] { display: none; }
 #kosong { margin-top: 16px; color: var(--muted); }
 
-.sistem-senarai { margin-top: 22px; display: grid; gap: 18px; }
-article.utama { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
-article.utama h3 { font-size: 1.15rem; }
+.sistem-senarai { margin-top: 20px; display: grid; gap: 16px; }
+article.utama { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+article.utama h3 { font-size: 1.12rem; }
 article.utama .ringkas { margin-top: 8px; max-width: 68ch; }
 article.utama .status { margin-top: 10px; color: var(--muted); font-size: 0.88rem; }
-article.utama h4, .label-kecil {
+h4, .label-kecil {
   margin-top: 16px; font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
   font-family: system-ui, sans-serif; font-weight: 600;
 }
 ul.bukti { margin-top: 8px; display: grid; gap: 5px; }
-ul.bukti li { padding-left: 14px; position: relative; font-size: 0.88rem; color: var(--muted); }
+ul.bukti li { padding-left: 14px; position: relative; font-size: 0.88rem; color: var(--muted); overflow-wrap: anywhere; }
 ul.bukti li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 1px; background: var(--line-kuat); }
-.kecil-senarai { margin-top: 20px; display: grid; gap: 2px; border-top: 1px solid var(--line); }
-details.sistem-kecil, details.kumpulan {
-  border-bottom: 1px solid var(--line); padding: 4px 0;
-}
+.kecil-senarai { margin-top: 18px; display: grid; gap: 2px; border-top: 1px solid var(--line); }
+details.sistem-kecil, details.kumpulan { border-bottom: 1px solid var(--line); padding: 4px 0; }
 details.sistem-kecil > summary, details.kumpulan > summary {
   cursor: pointer; min-height: 44px; display: flex; flex-wrap: wrap; gap: 4px 14px;
   align-items: center; justify-content: space-between; padding: 10px 2px;
@@ -176,15 +191,15 @@ details.sistem-kecil .ringkas, details.sistem-kecil .status, details.sistem-keci
 details.sistem-kecil .status { color: var(--muted); font-size: 0.88rem; }
 .hint, .kira { color: var(--muted); font-size: 0.82rem; }
 
-ol.log { margin-top: 22px; display: grid; gap: 30px; }
+ol.log { margin-top: 20px; display: grid; gap: 26px; }
 ol.log li { border-left: 1px solid var(--line); padding-left: 18px; }
 .tarikh { color: var(--muted); font-size: 0.84rem; }
-ol.log h3 { font-size: 1.06rem; margin-top: 4px; }
+ol.log h3 { font-size: 1.04rem; margin-top: 4px; }
 ul.butiran { margin-top: 8px; display: grid; gap: 6px; max-width: 70ch; }
 ul.butiran li { padding-left: 14px; position: relative; }
 ul.butiran li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 1px; background: var(--line-kuat); }
 
-.kolom { display: grid; gap: 26px; grid-template-columns: 1fr; margin-top: 20px; }
+.kolom { display: grid; gap: 24px; grid-template-columns: 1fr; margin-top: 18px; }
 ul.senarai { display: grid; gap: 8px; padding: 8px 0 12px; }
 ul.senarai li { font-size: 0.9rem; }
 ul.senarai .sub { display: inline; margin-left: 6px; }
@@ -192,8 +207,12 @@ ul.daftar-skill { margin-top: 18px; display: grid; gap: 14px; }
 ul.daftar-skill li { border-bottom: 1px solid var(--line); padding-bottom: 12px; }
 .kategori { display: flex; flex-wrap: wrap; gap: 4px 12px; justify-content: space-between; }
 
-.dokumen h2 { font-size: 1.3rem; margin-top: 34px; }
-.dokumen h3 { font-size: 1.05rem; margin-top: 24px; }
+.dokumen h2 { font-size: 1.3rem; margin-top: 30px; }
+.dokumen h3 { font-size: 1.05rem; margin-top: 22px; }
+.dokumen h4, .dokumen h5 {
+  font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  font-family: system-ui, sans-serif; margin-top: 20px;
+}
 .dokumen p, .dokumen li { max-width: 72ch; }
 .dokumen p + p { margin-top: 10px; }
 .dokumen ul, .dokumen ol { margin-top: 10px; display: grid; gap: 7px; }
@@ -205,13 +224,28 @@ ul.daftar-skill li { border-bottom: 1px solid var(--line); padding-bottom: 12px;
 .dokumen th { color: var(--muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.08em; }
 .dokumen code { font-family: "Roboto Mono", ui-monospace, monospace; font-size: 0.86em; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
 
-footer.kaki { margin-top: 56px; border-top: 3px double var(--line-kuat); padding-top: 18px; color: var(--muted); font-size: 0.86rem; }
+footer.kaki { margin-top: 44px; border-top: 3px double var(--line-kuat); padding-top: 16px; color: var(--muted); font-size: 0.86rem; }
 footer.kaki p + p { margin-top: 8px; }
 footer.kaki code { font-family: "Roboto Mono", ui-monospace, monospace; color: var(--text); font-size: 0.84rem; }
 
 @media (min-width: 760px) {
   :root { --langit: 34px; }
   .kolom { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 759px) {
+  nav.bahagian { display: none; }
+  nav.bawah {
+    display: grid; grid-template-columns: repeat(6, 1fr); position: fixed;
+    left: 0; right: 0; bottom: 0; z-index: 6;
+    background: var(--surface); border-top: 1px solid var(--line-kuat);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  nav.bawah a {
+    display: grid; justify-items: center; align-content: center; gap: 5px;
+    min-height: var(--nav-bawah); font-size: 0.74rem; letter-spacing: 0.02em;
+  }
+  .wrap { padding-bottom: calc(var(--nav-bawah) + 56px); }
+  footer.kaki { margin-top: 32px; }
 }
 @media (max-width: 860px) {
   table.job thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
@@ -228,13 +262,14 @@ footer.kaki code { font-family: "Roboto Mono", ui-monospace, monospace; color: v
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
-.tema, .tapis button, details > summary, nav.isi a { transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease; }
+.tema, .tapis button, details > summary, nav.bahagian a, nav.bawah a { transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease; }
 
-.dokumen { margin-top: 28px; }
 </style>
 </head>
 <body>
-<div class="wrap">
+<a class="skip" href="#kandungan">Lompat ke kandungan</a>
+<div class="wrap" id="kandungan">
+
   <header class="masthead">
     <div class="atas">
       <div>
@@ -244,62 +279,96 @@ footer.kaki code { font-family: "Roboto Mono", ui-monospace, monospace; color: v
       <button class="tema" id="tema" type="button" aria-pressed="false">Tema gelap</button>
     </div>
     <div class="meta">
-      <span>Dijana 22 Sep 2026 11:01</span>
-      <span>Sumber: DESIGN.md</span>
-      <span><a href="index.html">Kembali ke papan</a></span>
+      <span>Dijana 22 Sep 2026 11:11</span>
+      <span>24 job · 45 skrip · 132 skill</span>
+      <span>Linux aarch64 · Termux 0.119.0-beta.3</span>
+      <span>Ruang lapang 150.2 GB</span>
+      <span><a href="index.html">Kembali ke papan depan</a></span>
     </div>
   </header>
+
+  <nav class="bahagian" aria-label="Halaman papan">
+    <ul>
+        <li><a href="index.html">Papan</a></li>
+        <li><a href="job.html">Job</a></li>
+        <li><a href="sistem.html">Sistem</a></li>
+        <li><a href="log.html">Rekod</a></li>
+        <li><a href="skrip.html">Skrip</a></li>
+        <li><a href="skill.html">Skill</a></li>
+    </ul>
+  </nav>
   <main class="dokumen">
-<h1>DESIGN.md — Papan Kawalan Hermes</h1>
+<h2>DESIGN.md: Papan Kawalan Hermes</h2>
 <p>Arahan hala tuju untuk dashboard operasi peribadi LordReid. Dokumen ini ialah sumber hala tuju (R-37). Fail ini bukan arahan kepada ejen; ia medan reka bentuk.</p>
-<h2>Identiti</h2>
+<h3>Identiti</h3>
 <ul><li>Produk: papan kawalan peribadi untuk semua automation Hermes yang berjalan atas tablet Android ini (cron, poster, penjadual video, alert saham, skill).</li><li>Pengguna: satu orang, LordReid, buka dari tablet dan telefon.</li><li>Kerja skrin ini: menjawab satu soalan, apa yang jalan seterusnya dan apa yang rosak sekarang. Segala yang tidak menyumbang kepada jawapan itu dipotong (C-3).</li><li>Bahasa visual: meja instrumen bercetak. Buku log operator, bukan laman SaaS. Sebab: ia merekod kerja sebenar satu orang, jadi ia patut nampak seperti rekod, bukan promosi.</li></ul>
-<h2>Nada</h2>
+<h3>Nada</h3>
 <p>Tenang, tepat, tanpa hiasan. Angka sebenar sahaja, tiada angka hiasan (R-17). Teks Melayu santai untuk penerangan, istilah teknikal kekal asal.</p>
-<h2>Palet</h2>
+<h3>Palet</h3>
 <p>Dua warna teras tambah satu aksen (R-29). Neutral tidak dikira.</p>
 <table><tr><th>Peranan</th><th>Gelap (lalai)</th><th>Cerah</th><th>Sebab</th></tr><tr><td>Latar</td><td><code>#14110D</code></td><td><code>#FAF6EF</code></td><td>Dakwat hangat, bukan hitam biru teknologi. Nada kertas rekod.</td></tr><tr><td>Permukaan</td><td><code>#1D1913</code></td><td><code>#FFFFFF</code></td><td>Satu tingkat di atas latar, cukup untuk memisahkan baris jadual.</td></tr><tr><td>Teks</td><td><code>#F3EDE3</code></td><td><code>#241F18</code></td><td>Kertas lama pada dakwat, kontras tinggi untuk bacaan panjang.</td></tr><tr><td>Teks pudar</td><td><code>#A79C8C</code></td><td><code>#6B6154</code></td><td>Label sekunder. Setiap pasangan diperiksa dengan contrast checker.</td></tr><tr><td>Aksen</td><td><code>#E8A33D</code></td><td><code>#8A5406</code></td><td>Emas rasmi Hermes, iaitu utusan. Dipakai pada jalur job seterusnya dan pada cincin fokus. Cincin fokus ialah kefungsian, bukan hiasan.</td></tr><tr><td>Lulus</td><td><code>#6FCF9B</code></td><td><code>#1F6B45</code></td><td>Keadaan sebenar, sentiasa berpasangan dengan perkataan.</td></tr><tr><td>Gagal</td><td><code>#F08A70</code></td><td><code>#A32D12</code></td><td>Keadaan sebenar, berpasangan dengan perkataan.</td></tr><tr><td>Pause</td><td><code>#9C9285</code></td><td><code>#5E564A</code></td><td>Keadaan sebenar, berpasangan dengan perkataan.</td></tr></table>
 <p>Warna keadaan hanya muncul bila keadaannya benar. Tiada cahaya, tiada denyutan.</p>
-<h2>Tipografi</h2>
+<h3>Tipografi</h3>
 <ul><li>Tajuk: <code>ui-serif, &quot;Noto Serif&quot;, Georgia, serif</code>. Sebab: papan ini buku log, jadi suara tajuk ialah suara cetak, bukan sans papan pemuka yang lalai.</li><li>Teks: <code>system-ui, Roboto, sans-serif</code>. Sebab: fon peranti sendiri, sifar muat turun atas tablet yang sering guna data selular.</li><li>Angka, masa, ungkapan cron: <code>ui-monospace, &quot;Roboto Mono&quot;, monospace</code>. Sebab fungsi, bukan gaya: cap masa dan kiraan perlu lurus menegak supaya boleh dipindai laju.</li></ul>
-<h2>Susun atur</h2>
-<p>Susunan ikut soalan operator, bukan templat papan pemuka lalai (tiada bar sisi, tiada empat kad statistik, tiada carta hiasan).</p>
-<ol><li>Jalur isyarat: satu baris focal, job seterusnya dan bilangannya.</li><li>Ayat kesihatan sistem, bukan kad angka.</li><li>Jadual job, disusun ikut masa jalan seterusnya, dengan tapisan keadaan.</li><li>Sistem, komposisi berbeza ikut berat kerja: sistem utama dapat blok penuh, yang kecil dapat baris padat (R-14).</li><li>Log binaan, entri bertarikh, terbalik kronologi.</li><li>Skrip dan skill, kiraan sebenar.</li><li>Kaki: bila fail ini dijana dan dari mana datanya.</li></ol>
-<h2>Dail</h2>
+<h3>Susun atur</h3>
+<p>Papan ini berbilang halaman: satu kategori, satu halaman. Sebab: operator membuka papan ini untuk menjawab satu soalan, dan satu halaman panjang memaksa dia menatal melepasi bahagian yang bukan jawapan (R-31). Pemisahan kategori memisahkan soalan.</p>
+<p>Papan depan (<code>index.html</code>) sengaja pendek dan hanya membawa tiga perkara:</p>
+<ol><li>Jalur isyarat: job seterusnya, jamnya, dan tiga baris giliran selepasnya.</li><li>Ayat kesihatan sistem, bukan kad angka, dan panggilan bila ada job gagal.</li><li>Direktori kategori: nama, kiraan sebenar, dan satu baris keterangan.</li></ol>
+<p>Halaman kategori:</p>
+<table><tr><th>Halaman</th><th>Soalan yang dijawab</th><th>Kiraan</th></tr><tr><td><code>job.html</code></td><td>Apa yang berjalan, bila seterusnya, apa yang gagal?</td><td>24 job</td></tr><tr><td><code>sistem.html</code></td><td>Apa yang sudah dibina dan apa buktinya?</td><td>12 sistem</td></tr><tr><td><code>log.html</code></td><td>Apa yang sudah siap, bila?</td><td>11 catatan</td></tr><tr><td><code>skrip.html</code></td><td>Fail apa yang menyokong semua ini?</td><td>44 fail</td></tr><tr><td><code>skill.html</code></td><td>Arahan apa yang dimuatkan sebelum kerja?</td><td>132 skill</td></tr><tr><td><code>design.html</code></td><td>Kenapa rupanya begini?</td><td>dokumen ini</td></tr></table>
+<p>Susunan dalam setiap halaman kekal: kepala bahagian dengan garis buku log, kemudian senarai. Sistem utama dapat blok penuh, yang kecil jadi baris boleh buka (R-14). Jadual job disusun ikut masa jalan seterusnya.</p>
+<h4>Navigasi</h4>
+<ul><li>Tablet dan desktop: baris pautan di bawah tajuk. Halaman semasa ditanda dengan lampu aksen segi empat, motif yang sama dengan lampu keadaan, kali ini membawa maklumat kedudukan.</li><li>Telefon: baris pautan disembunyikan dan diganti bar tetap di bawah skrin. Sebab: ibu jari sampai ke bawah, dan ruang atas terjaga untuk kandungan. Ruang kandungan ditambah supaya baris terakhir tidak tertutup, dan <code>env(safe-area-inset-bottom)</code> menjaga telefon yang ada bar rumah.</li><li><code>design.html</code> tiada dalam nav kerana ia rujukan, bukan kategori kerja. Ia dipaut dari direktori papan depan dan dari kaki setiap halaman.</li></ul>
+<h4>Had saiz</h4>
+<p>Papan depan kekal bawah 26 KB dan setiap halaman kategori bawah 60 KB. Gerbang <code>verify.py</code> gagal kalau mana-mana halaman melebihi, supaya masalah satu halaman menjulur panjang tidak boleh kembali senyap.</p>
+<h3>Dail</h3>
 <p>Dial: ENERGY 2 / RHYTHM 2 / MOTION 1.</p>
 <ul><li>ENERGY 2: tenang tetapi ada focal jelas pada jalur isyarat.</li><li>RHYTHM 2: bahagian berbeza komposisi, tidak seragam sepenuhnya.</li><li>MOTION 1: keadaan hover dan fokus sahaja, tiada animasi berjalan sendiri.</li></ul>
-<h2>Motif identiti</h2>
+<h3>Motif identiti</h3>
 <p>Lampu isyarat segi empat kecil dan garis buku log di bawah tajuk bahagian. Lampu hanya untuk keadaan sebenar. Garis buku log ialah suara cetak yang berulang.</p>
-<h2>Sebab keputusan utama (R-31)</h2>
-<ul><li>Kenapa gelap lalai: konsol dibaca waktu malam atas tablet OLED, jadi gelap adalah sebab penggunaan, dan togol cerah tetap disediakan supaya kedua-duanya boleh dipakai (R-21).</li><li>Kenapa jadual untuk job: pengguna memindai 22 baris untuk mencari yang gagal, jadi kolum lurus lebih cepat daripada kad.</li><li>Kenapa jadual runtuh jadi senarai pada telefon: 22 baris tidak muat skrin sempit tanpa tatal mendatar (R-03).</li><li>Kenapa tiada kad statistik: bilangannya boleh ditulis dalam satu ayat, jadi kad hanya menambah ketinggian tanpa menambah maklumat.</li></ul>
+<h3>Sebab keputusan utama (R-31)</h3>
+<ul><li>Kenapa gelap lalai: konsol dibaca waktu malam atas tablet OLED, jadi gelap adalah sebab penggunaan, dan togol cerah tetap disediakan supaya kedua-duanya boleh dipakai (R-21).</li><li>Kenapa dipecahkan ikut kategori: satu halaman panjang bermakna setiap lawatan membawa kandungan yang tidak diminta. Memisahkan kategori menjadikan satu halaman menjawab satu soalan, dan pautan kategori pada papan depan menggantikan tatal panjang. Ini permintaan terus LordReid (22 Sep 2026) selepas meninjau halaman awam.</li><li>Kenapa nav jadi bar di bawah pada telefon: pautan yang melimpah akan membalut jadi dua baris atau terkeluar skrin, dan pautan di bawah tajuk itu zon yang paling jauh dari ibu jari. Bar bawah menyelesaikan kedua-duanya sekali.</li><li>Kenapa had saiz dijadikan ujian: masalah asal ialah halaman menjulur panjang, dan masalah begitu hanya boleh dicegah dengan gerbang, bukan dengan niat.</li><li>Kenapa jadual untuk job: pengguna memindai 24 baris untuk mencari yang gagal, jadi kolum lurus lebih cepat daripada kad.</li><li>Kenapa jadual runtuh jadi senarai pada telefon: baris tidak muat skrin sempit tanpa tatal mendatar (R-03).</li><li>Kenapa tiada kad statistik: bilangannya boleh ditulis dalam satu ayat, jadi kad hanya menambah ketinggian tanpa menambah maklumat.</li></ul>
   </main>
+
   <footer class="kaki">
-    <p>Halaman ini dijana oleh build.py daripada DESIGN.md. Ubah dokumen itu, kemudian jalankan semula build.py.</p>
+    <p>Sumber data: folder cron Hermes, folder skrip, folder skill dan folder kerja dalam peranti ini. Tiada angka yang ditulis tangan.</p>
+    <p>Kemas kini selepas kerja baru: tambah catatan dalam <code>data/log.json</code>, kemudian jalankan <code>bash ~/hermes_dashboard/rebuild.sh</code>. Sebab setiap keputusan rupa ada dalam <a href="design.html">arahan reka bentuk</a>.</p>
   </footer>
+
 </div>
+<nav class="bawah" aria-label="Navigasi utama">
+
+    <a href="index.html"><span class="titik" aria-hidden="true"></span>Papan</a>
+    <a href="job.html"><span class="titik" aria-hidden="true"></span>Job</a>
+    <a href="sistem.html"><span class="titik" aria-hidden="true"></span>Sistem</a>
+    <a href="log.html"><span class="titik" aria-hidden="true"></span>Rekod</a>
+    <a href="skrip.html"><span class="titik" aria-hidden="true"></span>Skrip</a>
+    <a href="skill.html"><span class="titik" aria-hidden="true"></span>Skill</a>
+</nav>
 <script>
 (function () {
   var html = document.documentElement;
-  var butang = document.getElementById('tema');
-  function label() {
-    butang.textContent = html.getAttribute('data-tema') === 'gelap' ? 'Tema gelap' : 'Tema cerah';
+  var butangTema = document.getElementById('tema');
+  function labelTema() {
+    butangTema.textContent = html.getAttribute('data-tema') === 'gelap' ? 'Tema gelap' : 'Tema cerah';
   }
   try {
     var simpan = localStorage.getItem('papan-tema');
     if (simpan === 'cerah' || simpan === 'gelap') {
       html.setAttribute('data-tema', simpan);
-      butang.setAttribute('aria-pressed', simpan === 'cerah' ? 'true' : 'false');
+      butangTema.setAttribute('aria-pressed', simpan === 'cerah' ? 'true' : 'false');
     }
   } catch (e) {}
-  label();
-  butang.addEventListener('click', function () {
+  labelTema();
+  butangTema.addEventListener('click', function () {
     var seterusnya = html.getAttribute('data-tema') === 'gelap' ? 'cerah' : 'gelap';
     html.setAttribute('data-tema', seterusnya);
-    butang.setAttribute('aria-pressed', seterusnya === 'cerah' ? 'true' : 'false');
-    label();
+    butangTema.setAttribute('aria-pressed', seterusnya === 'cerah' ? 'true' : 'false');
+    labelTema();
     try { localStorage.setItem('papan-tema', seterusnya); } catch (e) {}
   });
 })();
+
 </script>
 </body>
 </html>
