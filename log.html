@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ms" data-tema="gelap">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rekod kerja - Papan Kawalan Hermes</title>
+<meta name="description" content="Semua kerja yang sudah siap, terbaru dulu. Di sinilah rekod setiap automation yang dibina.">
+<style>
+:root {
+  --bg: #14110D;
+  --surface: #1D1913;
+  --surface-2: #241F17;
+  --text: #F3EDE3;
+  --muted: #A79C8C;
+  --accent: #E8A33D;
+  --ok: #6FCF9B;
+  --fail: #F08A70;
+  --pause: #9C9285;
+  --line: #4A4136;
+  --line-kuat: #7A6C58;
+  --langit: 20px;
+  --radius: 6px;
+  --nav-bawah: 66px;
+}
+html[data-tema="cerah"] {
+  --bg: #FAF6EF;
+  --surface: #FFFFFF;
+  --surface-2: #F3EDE1;
+  --text: #241F18;
+  --muted: #6B6154;
+  --accent: #8A5406;
+  --ok: #1F6B45;
+  --fail: #A32D12;
+  --pause: #5E564A;
+  --line: #D9CFBE;
+  --line-kuat: #8C8072;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Roboto", "Noto Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.mono { font-family: "Roboto Mono", ui-monospace, "DejaVu Sans Mono", monospace; font-variant-numeric: tabular-nums; }
+h1, h2, h3, h4 {
+  font-family: "Noto Serif", Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.skip {
+  position: absolute; left: -9999px; top: 0; background: var(--surface); color: var(--text);
+  padding: 10px 14px; border: 1px solid var(--line-kuat); z-index: 9;
+}
+.skip:focus { left: 12px; top: 12px; }
+.wrap { max-width: 1140px; margin: 0 auto; padding: 0 var(--langit) 72px; }
+
+header.masthead { padding: 28px 0 18px; border-bottom: 1px solid var(--line); }
+.masthead .atas { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: space-between; }
+.masthead h1 { font-size: clamp(1.5rem, 4.4vw, 2.1rem); }
+.masthead .lede { color: var(--muted); max-width: 62ch; margin-top: 8px; }
+.tema {
+  background: var(--surface); color: var(--text); border: 1px solid var(--line-kuat);
+  border-radius: var(--radius); padding: 9px 14px; font: inherit; font-size: 0.9rem; cursor: pointer;
+  min-height: 44px;
+}
+.tema:hover { background: var(--surface-2); }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; color: var(--muted); font-size: 0.84rem; }
+.lompat { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; font-size: 0.9rem; }
+
+nav.bahagian { margin-top: 4px; border-bottom: 1px solid var(--line); }
+nav.bahagian ul { display: flex; flex-wrap: wrap; gap: 0 4px; }
+nav.bahagian a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px;
+  color: var(--muted); text-decoration: none; font-size: 0.88rem; letter-spacing: 0.02em;
+}
+nav.bahagian a:hover { color: var(--text); text-decoration: underline; }
+nav.bahagian a[aria-current="page"] { color: var(--text); }
+nav.bahagian a[aria-current="page"]::before {
+  content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--accent); margin-right: 8px;
+}
+nav.bawah { display: none; }
+nav.bawah a { color: var(--muted); text-decoration: none; }
+nav.bawah .titik { width: 8px; height: 8px; border-radius: 2px; background: var(--line-kuat); }
+nav.bawah a[aria-current="page"] { color: var(--text); }
+nav.bawah a[aria-current="page"] .titik { background: var(--accent); }
+
+.isyarat {
+  margin: 22px 0 8px; padding: 18px 20px; background: var(--surface);
+  border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: var(--radius);
+}
+.isyarat .label { color: var(--accent); font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.isyarat .utama-baris { font-family: "Noto Serif", Georgia, serif; font-size: clamp(1.15rem, 3.4vw, 1.5rem); margin-top: 6px; }
+.isyarat .jam { color: var(--accent); }
+.isyarat .bila { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+.isyarat .giliran { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; }
+.isyarat .giliran li { display: flex; flex-wrap: wrap; gap: 6px 12px; padding: 4px 0; font-size: 0.92rem; }
+.isyarat .giliran .waktu { color: var(--muted); min-width: 8.5rem; }
+
+.kesehatan { margin-top: 16px; }
+.panggil {
+  margin-top: 14px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line);
+  border-left: 3px solid var(--fail); border-radius: var(--radius);
+}
+.panggil h3 { font-size: 1rem; color: var(--fail); margin-bottom: 4px; }
+.panggil .mono { font-size: 0.84rem; color: var(--muted); margin-top: 6px; }
+.panggil.empty { border-left-color: var(--line-kuat); }
+.panggil.empty h3 { color: var(--muted); }
+
+section { margin-top: 34px; scroll-margin-top: 18px; }
+.kepala { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; justify-content: space-between;
+  border-bottom: 3px double var(--line-kuat); padding-bottom: 8px; }
+.kepala h2 { font-size: 1.32rem; }
+.kepala .label { color: var(--muted); font-size: 0.8rem; letter-spacing: 0.06em; }
+section > .nota { color: var(--muted); font-size: 0.9rem; margin-top: 10px; max-width: 66ch; }
+
+ul.direktori { margin-top: 18px; border-top: 1px solid var(--line); }
+ul.direktori li { border-bottom: 1px solid var(--line); padding: 13px 0; display: grid; grid-template-columns: 1fr auto; gap: 3px 14px; align-items: baseline; }
+ul.direktori .nama { font-family: "Noto Serif", Georgia, serif; font-size: 1.06rem; }
+ul.direktori .kira { color: var(--muted); font-size: 0.84rem; white-space: nowrap; }
+ul.direktori .nota { grid-column: 1 / -1; color: var(--muted); font-size: 0.88rem; max-width: 70ch; }
+
+.tapis { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 18px 0 14px; }
+.tapis button {
+  background: var(--surface); color: var(--muted); border: 1px solid var(--line-kuat);
+  border-radius: 999px; padding: 8px 14px; font: inherit; font-size: 0.86rem; cursor: pointer; min-height: 40px;
+}
+.tapis button[aria-pressed="true"] { background: var(--surface-2); color: var(--text); border-color: var(--text); }
+.tapis .cari { flex: 1 1 220px; display: flex; }
+.tapis input {
+  width: 100%; background: var(--surface); color: var(--text); border: 1px solid var(--line-kuat);
+  border-radius: var(--radius); padding: 10px 12px; font: inherit; font-size: 0.9rem; min-height: 44px;
+}
+.tapis input::placeholder { color: var(--muted); }
+#kira { color: var(--muted); font-size: 0.86rem; flex: 1 1 100%; }
+
+.jadual-bungkus { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+table.job { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+table.job th {
+  text-align: left; font-weight: 600; font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); background: var(--surface-2); padding: 11px 14px; border-bottom: 1px solid var(--line);
+}
+table.job td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; background: var(--surface); }
+table.job tr:last-child td { border-bottom: 0; }
+table.job tr[data-failed="1"] td:first-child { color: var(--fail); }
+.nama { display: block; font-weight: 600; }
+.sub { display: block; color: var(--muted); font-size: 0.82rem; margin-top: 3px; }
+.angka { font-variant-numeric: tabular-nums; }
+.lamp { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 7px; vertical-align: 1px; }
+.lamp.ok { background: var(--ok); }
+.lamp.gagal { background: var(--fail); }
+.lamp.pause { background: var(--pause); }
+.lamp.selesai { background: var(--muted); }
+tr[data-failed="1"] .lamp { background: var(--fail); }
+details.ralat { margin-top: 8px; font-size: 0.84rem; }
+details.ralat summary { cursor: pointer; color: var(--fail); }
+details.ralat p { margin-top: 6px; color: var(--muted); word-break: break-word; }
+tr[hidden] { display: none; }
+#kosong { margin-top: 16px; color: var(--muted); }
+
+.sistem-senarai { margin-top: 20px; display: grid; gap: 16px; }
+article.utama { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+article.utama h3 { font-size: 1.12rem; }
+article.utama .ringkas { margin-top: 8px; max-width: 68ch; }
+article.utama .status { margin-top: 10px; color: var(--muted); font-size: 0.88rem; }
+h4, .label-kecil {
+  margin-top: 16px; font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  font-family: system-ui, sans-serif; font-weight: 600;
+}
+ul.bukti { margin-top: 8px; display: grid; gap: 5px; }
+ul.bukti li { padding-left: 14px; position: relative; font-size: 0.88rem; color: var(--muted); overflow-wrap: anywhere; }
+ul.bukti li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 1px; background: var(--line-kuat); }
+.kecil-senarai { margin-top: 18px; display: grid; gap: 2px; border-top: 1px solid var(--line); }
+details.sistem-kecil, details.kumpulan { border-bottom: 1px solid var(--line); padding: 4px 0; }
+details.sistem-kecil > summary, details.kumpulan > summary {
+  cursor: pointer; min-height: 44px; display: flex; flex-wrap: wrap; gap: 4px 14px;
+  align-items: center; justify-content: space-between; padding: 10px 2px;
+}
+details > summary:hover .nama { text-decoration: underline; }
+details.sistem-kecil .ringkas, details.sistem-kecil .status, details.sistem-kecil ul.bukti { padding-bottom: 10px; max-width: 70ch; }
+details.sistem-kecil .status { color: var(--muted); font-size: 0.88rem; }
+.hint, .kira { color: var(--muted); font-size: 0.82rem; }
+
+ol.log { margin-top: 20px; display: grid; gap: 26px; }
+ol.log li { border-left: 1px solid var(--line); padding-left: 18px; }
+.tarikh { color: var(--muted); font-size: 0.84rem; }
+ol.log h3 { font-size: 1.04rem; margin-top: 4px; }
+ul.butiran { margin-top: 8px; display: grid; gap: 6px; max-width: 70ch; }
+ul.butiran li { padding-left: 14px; position: relative; }
+ul.butiran li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 1px; background: var(--line-kuat); }
+
+.kolom { display: grid; gap: 24px; grid-template-columns: 1fr; margin-top: 18px; }
+ul.senarai { display: grid; gap: 8px; padding: 8px 0 12px; }
+ul.senarai li { font-size: 0.9rem; }
+ul.senarai .sub { display: inline; margin-left: 6px; }
+ul.daftar-skill { margin-top: 18px; display: grid; gap: 14px; }
+ul.daftar-skill li { border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.kategori { display: flex; flex-wrap: wrap; gap: 4px 12px; justify-content: space-between; }
+
+.dokumen h2 { font-size: 1.3rem; margin-top: 30px; }
+.dokumen h3 { font-size: 1.05rem; margin-top: 22px; }
+.dokumen h4, .dokumen h5 {
+  font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  font-family: system-ui, sans-serif; margin-top: 20px;
+}
+.dokumen p, .dokumen li { max-width: 72ch; }
+.dokumen p + p { margin-top: 10px; }
+.dokumen ul, .dokumen ol { margin-top: 10px; display: grid; gap: 7px; }
+.dokumen ul li { padding-left: 14px; position: relative; }
+.dokumen ul li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 1px; background: var(--line-kuat); }
+.dokumen ol { list-style: decimal; padding-left: 22px; color: var(--text); }
+.dokumen table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.88rem; }
+.dokumen th, .dokumen td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.dokumen th { color: var(--muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.dokumen code { font-family: "Roboto Mono", ui-monospace, monospace; font-size: 0.86em; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
+
+footer.kaki { margin-top: 44px; border-top: 3px double var(--line-kuat); padding-top: 16px; color: var(--muted); font-size: 0.86rem; }
+footer.kaki p + p { margin-top: 8px; }
+footer.kaki code { font-family: "Roboto Mono", ui-monospace, monospace; color: var(--text); font-size: 0.84rem; }
+
+@media (min-width: 760px) {
+  :root { --langit: 34px; }
+  .kolom { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 759px) {
+  nav.bahagian { display: none; }
+  nav.bawah {
+    display: grid; grid-template-columns: repeat(6, 1fr); position: fixed;
+    left: 0; right: 0; bottom: 0; z-index: 6;
+    background: var(--surface); border-top: 1px solid var(--line-kuat);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  nav.bawah a {
+    display: grid; justify-items: center; align-content: center; gap: 5px;
+    min-height: var(--nav-bawah); font-size: 0.74rem; letter-spacing: 0.02em;
+  }
+  .wrap { padding-bottom: calc(var(--nav-bawah) + 56px); }
+  footer.kaki { margin-top: 32px; }
+}
+@media (max-width: 860px) {
+  table.job thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  table.job, table.job tbody, table.job tr, table.job td { display: block; width: 100%; }
+  table.job tr { border-bottom: 1px solid var(--line); }
+  table.job td {
+    display: grid; grid-template-columns: 8.5rem 1fr; gap: 4px 12px; border: 0; padding: 9px 14px;
+  }
+  table.job td::before { content: attr(data-label); color: var(--muted); font-size: 0.78rem; letter-spacing: 0.04em; }
+  table.job td:first-child { padding-top: 14px; }
+  table.job td:last-child { padding-bottom: 14px; }
+  table.job tr[hidden] { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+.tema, .tapis button, details > summary, nav.bahagian a, nav.bawah a { transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease; }
+
+</style>
+</head>
+<body>
+<a class="skip" href="#kandungan">Lompat ke kandungan</a>
+<div class="wrap" id="kandungan">
+
+  <header class="masthead">
+    <div class="atas">
+      <div>
+        <h1>Rekod kerja</h1>
+        <p class="lede">Semua kerja yang sudah siap, terbaru dulu. Di sinilah rekod setiap automation yang dibina.</p>
+      </div>
+      <button class="tema" id="tema" type="button" aria-pressed="false">Tema gelap</button>
+    </div>
+    <div class="meta">
+      <span>Dijana 22 Sep 2026 11:11</span>
+      <span>24 job · 45 skrip · 132 skill</span>
+      <span>Linux aarch64 · Termux 0.119.0-beta.3</span>
+      <span>Ruang lapang 150.2 GB</span>
+    </div>
+  </header>
+
+  <nav class="bahagian" aria-label="Halaman papan">
+    <ul>
+        <li><a href="index.html">Papan</a></li>
+        <li><a href="job.html">Job</a></li>
+        <li><a href="sistem.html">Sistem</a></li>
+        <li><a href="log.html" aria-current="page">Rekod</a></li>
+        <li><a href="skrip.html">Skrip</a></li>
+        <li><a href="skill.html">Skill</a></li>
+    </ul>
+  </nav>
+  <section id="log">
+    <div class="kepala">
+      <h2>Rekod kerja</h2>
+      <p class="label">11 catatan</p>
+    </div>
+    <p class="nota">Kerja disusun dari yang terbaru. Setiap catatan ada bukti fail supaya boleh disemak sendiri.</p>
+    <ol class="log">
+      <li>
+        <p class="tarikh mono">2026-09-22 10:50</p>
+        <h3>Papan kawalan berpindah dari tunnel ke GitHub Pages (port 443)</h3>
+        <ul class="butiran">
+            <li>Sebab rangkaian sekat port 7844, papan kawalan dipindahkan ke hos statik yang hanya perlu port 443, jadi ia boleh dibuka walau di rangkaian bertapis.</li>
+            <li>Repo FaridRazmi/Hermes-dashboard- (awam) menerima lima fail: index.html, design.html, CNAME, .nojekyll dan robots.txt. Halaman ditanda noindex supaya tidak masuk enjin carian.</li>
+            <li>DNS Cloudflare dashboard.reidworks.my ditukar dari CNAME tunnel ke faridrazmi.github.io tanpa proksi, supaya GitHub boleh keluarkan sijil sendiri. Rekod lama boleh dipulihkan bila bila masa.</li>
+            <li>publish.py mengemas kini halaman awam secara automatik selepas setiap rebuild, dan dashboard_watchdog.py memeriksa keadaan awam setiap 15 minit serta memulihkannya bila rosak.</li>
+            <li>Halaman awam kini hidup atas port 443 melalui CDN raw.githack.com yang membaca terus dari repo, jadi ia boleh dibuka walaupun Pages GitHub belum dihidupkan.</li>
+            <li>Baki: GitHub tidak benarkan token halus menghidupkan Pages (403), jadi Pages perlu dihidupkan sekali secara manual di Settings repo. Selepas itu domain dashboard.reidworks.my terus berfungsi tanpa kerja tambahan.</li>
+        </ul>
+        <p class="label-kecil">Bukti</p>
+        <ul class="bukti">
+            <li class="mono">hermes_dashboard/publish.py, dns_ke_pages.py</li>
+            <li class="mono">dns: dashboard.reidworks.my -&gt; faridrazmi.github.io (185.199.110.153)</li>
+            <li class="mono">repo: 5 fail terkirim, index.html 74.6 KB</li>
+            <li class="mono">awam: raw.githack.com pulang 200 text/html dengan tanda halaman</li>
+            <li class="mono">publish_last.json (lulus_sandaran), watchdog_state.json (sihat)</li>
+        </ul>
+      </li>
+      <li>
+        <p class="tarikh mono">2026-09-22 10:40</p>
+        <h3>Punca sebenar URL awam gagal: rangkaian sekat port 7844</h3>
+        <ul class="butiran">
+            <li>Error 1033 dari Cloudflare bermakna cloudflared tidak dapat mendaftar dengan edge Cloudflare. Ia bukan masalah halaman atau pelayan tempatan, kerana tempatan kekal 200.</li>
+            <li>Ujian terus pada rangkaian semasa: port 7844 ke edge Cloudflare (198.41.200.13, 198.41.192.7, 198.41.200.193, 198.41.192.167) gagal cap masa setiap kali, tetapi port 443 dan 80 pada IP yang sama terbuka dalam 0.02 saat.</li>
+            <li>DNS keluar juga ditapis: UDP 53, TCP 53 dan DoT 853 ke 8.8.8.8, 1.1.1.1 dan 9.9.9.9 semuanya gagal. DoH ke cloudflare-dns.com dipintas dan dipulangkan halaman sekatan FortiGuard SDNS. Hanya DoH ke 1.1.1.1 berjaya.</li>
+            <li>Kesimpulan: tunnel Cloudflare mustahil hidup pada rangkaian ini, sebab cloudflared hanya boleh keluar melalui port 7844 dan tiada pilihan port lain dalam versi ini.</li>
+            <li>Pengawas dashboard_watchdog.py dipasang sebagai cron setiap 15 minit: menghidupkan semula pelayan tempatan bila mati, memulakan semula tunnel bila 7844 terbuka, dan senyap bila rangkaian masih menyekat.</li>
+            <li>Ujian kebenaran untuk pilihan hosting lain: token tunnel Cloudflare boleh mengubah DNS reidworks.my tetapi tidak boleh buat Worker atau Pages. Token GitHub boleh push pada repo terpilih tetapi tidak boleh buat repo baharu atau hidupkan Pages.</li>
+            <li>Jalan keluar yang disyorkan: hos statik atas port 443 (Worker Cloudflare dengan laluan hostname), sebab 443 terbuka pada rangkaian ini dan pada rangkaian biasa.</li>
+        </ul>
+        <p class="label-kecil">Bukti</p>
+        <ul class="bukti">
+            <li class="mono">cari_dns.py: 7844 gagal, 443 dan 80 lulus, DoH 1.1.1.1 lulus</li>
+            <li class="mono">cari_hos.py: github.io, pages.dev, api.github.com boleh dicapai atas 443</li>
+            <li class="mono">cek_cf_tulis.py: DNS tulis 200, Worker tulis 403</li>
+            <li class="mono">cek_repo.py: push lulus pada 9 repo, Pages 404 pada semua</li>
+            <li class="mono">dashboard_watchdog.py, cron d6d9e31f0f2f */15</li>
+            <li class="mono">curl tempatan 200, awam 530</li>
+        </ul>
+      </li>
+      <li>
+        <p class="tarikh mono">2026-09-22 09:45</p>
+        <h3>Papan kawalan Hermes dibina</h3>
+        <ul class="butiran">
+            <li>Halaman statik yang mengumpul semua automation dan sistem dalam satu tempat.</li>
+            <li>Data hidup diambil dari jobs.json, folder skrip, folder skill dan folder projek, jadi angka pada halaman sentiasa datang dari sistem sebenar.</li>
+            <li>Arahan reka bentuk ditulis dalam DESIGN.md sebelum kod bermula, dan enam skill anti-slop dipakai semasa membina.</li>
+            <li>Gerbang pengesahan verify.py menjalankan 55 ujian pada fail yang dijana, termasuk kontras setiap pasangan warna dalam dua tema.</li>
+            <li>Disajikan pada 127.0.0.1:8791 melalui start.sh dan tunnel dashboard.reidworks.my. Tunnel tersekat pada WiFi sekarang sebab port edge 7844 disekat, jadi URL awam perlukan rangkaian yang benarkan 7844 (hotspot telefon atau VPN).</li>
+            <li>Cron hermes-dashboard-rebuild menjalankan rebuild.sh setiap 30 minit, senyap bila berjaya.</li>
+            <li>Ujian kefungsian JS (uji_js.js) menjalankan skrip halaman sebenar dalam Node dengan DOM tiruan: lima tapisan keadaan, carian huruf besar dan carian bersama tapisan, keadaan kosong, kiraan langsung, dan togol tema yang kekal selepas muat semula.</li>
+        </ul>
+        <p class="label-kecil">Bukti</p>
+        <ul class="bukti">
+            <li class="mono">hermes_dashboard/collect.py, build.py, verify.py</li>
+            <li class="mono">hermes_dashboard/DESIGN.md 4.0 KB</li>
+            <li class="mono">hermes_dashboard/index.html 68.6 KB, design.html 18.5 KB</li>
+            <li class="mono">cron hermes-dashboard-rebuild (31be6a4d803f) */30</li>
+            <li class="mono">curl tempatan 200, 55 ujian lulus, 0 gagal</li>
+            <li class="mono">uji_js.js, SEMUA LULUS (10 kes)</li>
+        </ul>
+      </li>
+      <li>
+        <p class="tarikh mono">2026-09-22 00:46</p>
+        <h3>Format hypnotic hook masuk pipeline Threads</h3>
+        <ul class="butiran">
+            <li>Satu post jadi empat item dipisah baris ===, diambil dari contoh post yang LordReid hantar.</li>
+            <li>Poster lama masih boleh guna format tiga item, jadi tiada kerja lama yang rosak.</li>
+            <li>Validator baru menyemak bilangan item, had 500 aksara, em dash, perkataan terlarang dan kedudukan link sebelum apa-apa dipost.</li>
+        </ul>
+        <p class="label-kecil">Bukti</p>
+        <ul class="bukti">
+            <li class="mono">skill threads-hook-thread</li>
+            <li class="mono">affiliate_poster.py 9.2 KB</li>
+            <li class="mono">validate_thread.py 3.0 KB</li>
+            <li class="mono">cron affiliate-daily-hook dikemas kini dengan skill dilampirkan</li>
+            <li class="mono">ujian: split 4 item lulus, sampel rosak ditolak exit 1</li>
+        </ul>
+      </li>
+      <li>
+        <p class="tarikh mono">2026-09-21 22:44</p>
+        <h3>Enam skill anti-slop dipasang</h3>
+        <ul class="butiran">
+            <li>Satu set peraturan yang menghalang reka bentuk lalai AI pada setiap kerja laman web dan UI.</li>
+            <li>Pencetus ditanam pada tiga skill reka bentuk supaya peraturan ini dimuatkan sendiri tanpa diingatkan.</li>
+            <li>Pemeriksa kontras diuji: putih lawan kelabu 777777 memberi 4.48:1, gagal untuk teks biasa.</li>
+        </ul>
+        <p class="label-kecil">Bukti</p>
+        <ul class="bukti">
+            <li class="mono">~/.hermes/skills/anti-slop/antislop/SKILL.md 51 KB</li>
+            <li class="mono">install_antislop.py</li>
+            <li class="mono">verify_antislop.sh</li>
+            <li class="mono">contrast-check.py</li>
+        </ul>
+      </li>
+      <li>
+        <p class="tarikh mono">2026-09-21 14:29</p>
+        <h3>Pelan suara AI OmniVoice untuk tablet</h3>
+        <ul class="butiran">
+            <li>Kesimpulan kajian: jalan melalui audio.cpp dengan model GGUF bersaiz 1.35 GB, bukan pasang pip dan torch yang tiada binaan untuk Termux.</li>
+            <li>Dua pilihan, bina sendiri di tablet atau hantar ke perkhidmatan jauh.</li>
+        </ul>
+        <p class="label-kecil">Bukti</p>
+        <ul class="bukti">
+            <li class="mono">~/.hermes/plans/2026-09-21_omnivoice-termux-plan.md 11.3 KB</li>
+        </ul>
+      </li>
+      <li>
+        <p class="tarikh mono">2026-09-21 08:10</p>
+        <h3>Bank engagement versi dua</h3>
+        <ul class="butiran">
+            <li>Versi lama gagal bila model balas 34 daripada 35 baris, jadi versi baru terima jumlah yang tidak penuh dan isi baki bila perlu.</li>
+        </ul>
+        <p class="label-kecil">Bukti</p>
+        <ul class="bukti">
+            <li class="mono">engagement_refill.py 7.9 KB</li>
+            <li class="mono">engagement_tracker.json</li>
+        </ul>
+      </li>
+      <li>
+        <p class="tarikh mono">2026-09-20</p>
+        <h3>28 video TikTok senyap siap dan dijadualkan</h3>
+        <ul class="butiran">
+            <li>Dua puluh lapan video fakta teknologi dirender tanpa audio, satu untuk setiap hari pada 20:00.</li>
+            <li>Semua post dijadualkan lebih awal, dan satu watchdog menyemak jadual setiap malam 21:00.</li>
+        </ul>
+        <p class="label-kecil">Bukti</p>
+        <ul class="bukti">
+            <li class="mono">~/tiktok_series/out/day01.mp4 hingga day28.mp4</li>
+            <li class="mono">scheduled_state.json 8.6 KB</li>
+            <li class="mono">cron tiktok-schedule-watchdog 0 21 * * *</li>
+            <li class="mono">render.py, schedule.py, update_media.py, unpublish.py</li>
+        </ul>
+      </li>
+      <li>
+        <p class="tarikh mono">2026-09-18</p>
+        <h3>Pengawal token Google setiap pagi</h3>
+        <ul class="butiran">
+            <li>Token Google disemak setiap 09:00 supaya kerja Sheets, Drive dan Forms tidak terhenti tanpa disedari.</li>
+            <li>Skrip auth semula disediakan untuk keadaan token mati.</li>
+        </ul>
+        <p class="label-kecil">Bukti</p>
+        <ul class="bukti">
+            <li class="mono">google_token_watchdog.sh 1.4 KB</li>
+            <li class="mono">cron google-token-watchdog 0 9 * * *</li>
+            <li class="mono">gen_auth_url.sh, exchange_token.py</li>
+        </ul>
+      </li>
+      <li>
+        <p class="tarikh mono">2026-09-12</p>
+        <h3>Poster video affiliate diuji</h3>
+        <ul class="butiran">
+            <li>Versi video untuk post affiliate pernah dijalankan, kemudian dipause sebab format Threads lebih sesuai untuk masa ini.</li>
+        </ul>
+        <p class="label-kecil">Bukti</p>
+        <ul class="bukti">
+            <li class="mono">video_poster.py 6.3 KB</li>
+            <li class="mono">cron video-affiliate-post-13 dan video-affiliate-post-19, kedua-duanya dipause</li>
+        </ul>
+      </li>
+      <li>
+        <p class="tarikh mono">2026-09-06</p>
+        <h3>Poster engagement tambahan waktu tengah hari dan petang</h3>
+        <ul class="butiran">
+            <li>Satu lagi slot posting engagement ditambah supaya akaun muncul pada dua waktu berbeza.</li>
+        </ul>
+        <p class="label-kecil">Bukti</p>
+        <ul class="bukti">
+            <li class="mono">cron engagement-general-poster 30 11,18 * * *</li>
+            <li class="mono">engagement_auto.sh</li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+
+  <footer class="kaki">
+    <p>Sumber data: folder cron Hermes, folder skrip, folder skill dan folder kerja dalam peranti ini. Tiada angka yang ditulis tangan.</p>
+    <p>Kemas kini selepas kerja baru: tambah catatan dalam <code>data/log.json</code>, kemudian jalankan <code>bash ~/hermes_dashboard/rebuild.sh</code>. Sebab setiap keputusan rupa ada dalam <a href="design.html">arahan reka bentuk</a>.</p>
+  </footer>
+
+</div>
+<nav class="bawah" aria-label="Navigasi utama">
+
+    <a href="index.html"><span class="titik" aria-hidden="true"></span>Papan</a>
+    <a href="job.html"><span class="titik" aria-hidden="true"></span>Job</a>
+    <a href="sistem.html"><span class="titik" aria-hidden="true"></span>Sistem</a>
+    <a href="log.html" aria-current="page"><span class="titik" aria-hidden="true"></span>Rekod</a>
+    <a href="skrip.html"><span class="titik" aria-hidden="true"></span>Skrip</a>
+    <a href="skill.html"><span class="titik" aria-hidden="true"></span>Skill</a>
+</nav>
+<script>
+(function () {
+  var html = document.documentElement;
+  var butangTema = document.getElementById('tema');
+  function labelTema() {
+    butangTema.textContent = html.getAttribute('data-tema') === 'gelap' ? 'Tema gelap' : 'Tema cerah';
+  }
+  try {
+    var simpan = localStorage.getItem('papan-tema');
+    if (simpan === 'cerah' || simpan === 'gelap') {
+      html.setAttribute('data-tema', simpan);
+      butangTema.setAttribute('aria-pressed', simpan === 'cerah' ? 'true' : 'false');
+    }
+  } catch (e) {}
+  labelTema();
+  butangTema.addEventListener('click', function () {
+    var seterusnya = html.getAttribute('data-tema') === 'gelap' ? 'cerah' : 'gelap';
+    html.setAttribute('data-tema', seterusnya);
+    butangTema.setAttribute('aria-pressed', seterusnya === 'cerah' ? 'true' : 'false');
+    labelTema();
+    try { localStorage.setItem('papan-tema', seterusnya); } catch (e) {}
+  });
+})();
+
+</script>
+</body>
+</html>
