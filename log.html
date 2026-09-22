@@ -279,10 +279,10 @@ footer.kaki code { font-family: "Roboto Mono", ui-monospace, monospace; color: v
       <button class="tema" id="tema" type="button" aria-pressed="false">Tema gelap</button>
     </div>
     <div class="meta">
-      <span>Dijana 22 Sep 2026 11:13</span>
+      <span>Dijana 22 Sep 2026 11:14</span>
       <span>24 job · 45 skrip · 132 skill</span>
       <span>Linux aarch64 · Termux 0.119.0-beta.3</span>
-      <span>Ruang lapang 150.1 GB</span>
+      <span>Ruang lapang 150.2 GB</span>
     </div>
   </header>
 
@@ -299,10 +299,28 @@ footer.kaki code { font-family: "Roboto Mono", ui-monospace, monospace; color: v
   <section id="log">
     <div class="kepala">
       <h2>Rekod kerja</h2>
-      <p class="label">11 catatan</p>
+      <p class="label">12 catatan</p>
     </div>
     <p class="nota">Kerja disusun dari yang terbaru. Setiap catatan ada bukti fail supaya boleh disemak sendiri.</p>
     <ol class="log">
+      <li>
+        <p class="tarikh mono">2026-09-22 11:25</p>
+        <h3>Papan kawalan dipecah ikut kategori, satu halaman satu soalan</h3>
+        <ul class="butiran">
+            <li>LordReid kata halaman awam terlalu panjang ke bawah, jadi papan dipecah kepada tujuh halaman: papan depan, job, sistem, rekod kerja, skrip, skill dan arahan reka bentuk.</li>
+            <li>Papan depan kini pendek dan hanya membawa tiga perkara: jalur isyarat job seterusnya, ayat kesihatan sistem, dan direktori kategori dengan kiraan sebenar.</li>
+            <li>Telefon dapat bar navigasi tetap di bawah skrin yang jauh dari kandungan sebelah atas, manakala tablet dan desktop dapat baris pautan di bawah tajuk dengan lampu aksen menanda halaman semasa.</li>
+            <li>GitHub Pages dihidupkan pada repo, jadi dashboard.reidworks.my kini menyajikan semua tujuh halaman atas port 443 dengan sijil GitHub sendiri, tanpa bergantung pada CDN sandaran lagi.</li>
+            <li>Gerbang verify.py ditambah had saiz halaman (papan depan bawah 26 KB, setiap halaman bawah 60 KB) dan ujian pautan nav, jadi masalah halaman menjulur panjang tidak boleh kembali tanpa disedari.</li>
+        </ul>
+        <p class="label-kecil">Bukti</p>
+        <ul class="bukti">
+            <li class="mono">hermes_dashboard/build.py berbilang halaman, verify.py 238 ujian lulus 0 gagal, uji_js.js semua lulus</li>
+            <li class="mono">7 halaman awam pulang 200 pada dashboard.reidworks.my (index 20 KB, job 41 KB)</li>
+            <li class="mono">publish_last.json lulus, 7 fail dikemas kini; rebuild_last.txt GAGAL 0</li>
+            <li class="mono">dashboard_watchdog.py memeriksa index.html dan job.html pada setiap hos</li>
+        </ul>
+      </li>
       <li>
         <p class="tarikh mono">2026-09-22 10:50</p>
         <h3>Papan kawalan berpindah dari tunnel ke GitHub Pages (port 443)</h3>
