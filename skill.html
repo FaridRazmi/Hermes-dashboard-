@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ms" data-tema="gelap">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skill dipasang - Papan Kawalan Hermes</title>
+<meta name="description" content="Arahan kerja yang dimuatkan sebelum tugas bermula, ikut kategori.">
+<style>
+:root {
+  --bg: #14110D;
+  --surface: #1D1913;
+  --surface-2: #241F17;
+  --text: #F3EDE3;
+  --muted: #A79C8C;
+  --accent: #E8A33D;
+  --ok: #6FCF9B;
+  --fail: #F08A70;
+  --pause: #9C9285;
+  --line: #4A4136;
+  --line-kuat: #7A6C58;
+  --langit: 20px;
+  --radius: 6px;
+  --nav-bawah: 66px;
+}
+html[data-tema="cerah"] {
+  --bg: #FAF6EF;
+  --surface: #FFFFFF;
+  --surface-2: #F3EDE1;
+  --text: #241F18;
+  --muted: #6B6154;
+  --accent: #8A5406;
+  --ok: #1F6B45;
+  --fail: #A32D12;
+  --pause: #5E564A;
+  --line: #D9CFBE;
+  --line-kuat: #8C8072;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Roboto", "Noto Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.mono { font-family: "Roboto Mono", ui-monospace, "DejaVu Sans Mono", monospace; font-variant-numeric: tabular-nums; }
+h1, h2, h3, h4 {
+  font-family: "Noto Serif", Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.skip {
+  position: absolute; left: -9999px; top: 0; background: var(--surface); color: var(--text);
+  padding: 10px 14px; border: 1px solid var(--line-kuat); z-index: 9;
+}
+.skip:focus { left: 12px; top: 12px; }
+.wrap { max-width: 1140px; margin: 0 auto; padding: 0 var(--langit) 72px; }
+
+header.masthead { padding: 28px 0 18px; border-bottom: 1px solid var(--line); }
+.masthead .atas { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: space-between; }
+.masthead h1 { font-size: clamp(1.5rem, 4.4vw, 2.1rem); }
+.masthead .lede { color: var(--muted); max-width: 62ch; margin-top: 8px; }
+.tema {
+  background: var(--surface); color: var(--text); border: 1px solid var(--line-kuat);
+  border-radius: var(--radius); padding: 9px 14px; font: inherit; font-size: 0.9rem; cursor: pointer;
+  min-height: 44px;
+}
+.tema:hover { background: var(--surface-2); }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; color: var(--muted); font-size: 0.84rem; }
+.lompat { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; font-size: 0.9rem; }
+
+nav.bahagian { margin-top: 4px; border-bottom: 1px solid var(--line); }
+nav.bahagian ul { display: flex; flex-wrap: wrap; gap: 0 4px; }
+nav.bahagian a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px;
+  color: var(--muted); text-decoration: none; font-size: 0.88rem; letter-spacing: 0.02em;
+}
+nav.bahagian a:hover { color: var(--text); text-decoration: underline; }
+nav.bahagian a[aria-current="page"] { color: var(--text); }
+nav.bahagian a[aria-current="page"]::before {
+  content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--accent); margin-right: 8px;
+}
+nav.bawah { display: none; }
+nav.bawah a { color: var(--muted); text-decoration: none; }
+nav.bawah .titik { width: 8px; height: 8px; border-radius: 2px; background: var(--line-kuat); }
+nav.bawah a[aria-current="page"] { color: var(--text); }
+nav.bawah a[aria-current="page"] .titik { background: var(--accent); }
+
+.isyarat {
+  margin: 22px 0 8px; padding: 18px 20px; background: var(--surface);
+  border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: var(--radius);
+}
+.isyarat .label { color: var(--accent); font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.isyarat .utama-baris { font-family: "Noto Serif", Georgia, serif; font-size: clamp(1.15rem, 3.4vw, 1.5rem); margin-top: 6px; }
+.isyarat .jam { color: var(--accent); }
+.isyarat .bila { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+.isyarat .giliran { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; }
+.isyarat .giliran li { display: flex; flex-wrap: wrap; gap: 6px 12px; padding: 4px 0; font-size: 0.92rem; }
+.isyarat .giliran .waktu { color: var(--muted); min-width: 8.5rem; }
+
+.kesehatan { margin-top: 16px; }
+.panggil {
+  margin-top: 14px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line);
+  border-left: 3px solid var(--fail); border-radius: var(--radius);
+}
+.panggil h3 { font-size: 1rem; color: var(--fail); margin-bottom: 4px; }
+.panggil .mono { font-size: 0.84rem; color: var(--muted); margin-top: 6px; }
+.panggil.empty { border-left-color: var(--line-kuat); }
+.panggil.empty h3 { color: var(--muted); }
+
+section { margin-top: 34px; scroll-margin-top: 18px; }
+.kepala { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; justify-content: space-between;
+  border-bottom: 3px double var(--line-kuat); padding-bottom: 8px; }
+.kepala h2 { font-size: 1.32rem; }
+.kepala .label { color: var(--muted); font-size: 0.8rem; letter-spacing: 0.06em; }
+section > .nota { color: var(--muted); font-size: 0.9rem; margin-top: 10px; max-width: 66ch; }
+
+ul.direktori { margin-top: 18px; border-top: 1px solid var(--line); }
+ul.direktori li { border-bottom: 1px solid var(--line); padding: 13px 0; display: grid; grid-template-columns: 1fr auto; gap: 3px 14px; align-items: baseline; }
+ul.direktori .nama { font-family: "Noto Serif", Georgia, serif; font-size: 1.06rem; }
+ul.direktori .kira { color: var(--muted); font-size: 0.84rem; white-space: nowrap; }
+ul.direktori .nota { grid-column: 1 / -1; color: var(--muted); font-size: 0.88rem; max-width: 70ch; }
+
+.tapis { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 18px 0 14px; }
+.tapis button {
+  background: var(--surface); color: var(--muted); border: 1px solid var(--line-kuat);
+  border-radius: 999px; padding: 8px 14px; font: inherit; font-size: 0.86rem; cursor: pointer; min-height: 40px;
+}
+.tapis button[aria-pressed="true"] { background: var(--surface-2); color: var(--text); border-color: var(--text); }
+.tapis .cari { flex: 1 1 220px; display: flex; }
+.tapis input {
+  width: 100%; background: var(--surface); color: var(--text); border: 1px solid var(--line-kuat);
+  border-radius: var(--radius); padding: 10px 12px; font: inherit; font-size: 0.9rem; min-height: 44px;
+}
+.tapis input::placeholder { color: var(--muted); }
+#kira { color: var(--muted); font-size: 0.86rem; flex: 1 1 100%; }
+
+.jadual-bungkus { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+table.job { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+table.job th {
+  text-align: left; font-weight: 600; font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); background: var(--surface-2); padding: 11px 14px; border-bottom: 1px solid var(--line);
+}
+table.job td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; background: var(--surface); }
+table.job tr:last-child td { border-bottom: 0; }
+table.job tr[data-failed="1"] td:first-child { color: var(--fail); }
+.nama { display: block; font-weight: 600; }
+.sub { display: block; color: var(--muted); font-size: 0.82rem; margin-top: 3px; }
+.angka { font-variant-numeric: tabular-nums; }
+.lamp { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 7px; vertical-align: 1px; }
+.lamp.ok { background: var(--ok); }
+.lamp.gagal { background: var(--fail); }
+.lamp.pause { background: var(--pause); }
+.lamp.selesai { background: var(--muted); }
+tr[data-failed="1"] .lamp { background: var(--fail); }
+details.ralat { margin-top: 8px; font-size: 0.84rem; }
+details.ralat summary { cursor: pointer; color: var(--fail); }
+details.ralat p { margin-top: 6px; color: var(--muted); word-break: break-word; }
+tr[hidden] { display: none; }
+#kosong { margin-top: 16px; color: var(--muted); }
+
+.sistem-senarai { margin-top: 20px; display: grid; gap: 16px; }
+article.utama { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+article.utama h3 { font-size: 1.12rem; }
+article.utama .ringkas { margin-top: 8px; max-width: 68ch; }
+article.utama .status { margin-top: 10px; color: var(--muted); font-size: 0.88rem; }
+h4, .label-kecil {
+  margin-top: 16px; font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  font-family: system-ui, sans-serif; font-weight: 600;
+}
+ul.bukti { margin-top: 8px; display: grid; gap: 5px; }
+ul.bukti li { padding-left: 14px; position: relative; font-size: 0.88rem; color: var(--muted); overflow-wrap: anywhere; }
+ul.bukti li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 1px; background: var(--line-kuat); }
+.kecil-senarai { margin-top: 18px; display: grid; gap: 2px; border-top: 1px solid var(--line); }
+details.sistem-kecil, details.kumpulan { border-bottom: 1px solid var(--line); padding: 4px 0; }
+details.sistem-kecil > summary, details.kumpulan > summary {
+  cursor: pointer; min-height: 44px; display: flex; flex-wrap: wrap; gap: 4px 14px;
+  align-items: center; justify-content: space-between; padding: 10px 2px;
+}
+details > summary:hover .nama { text-decoration: underline; }
+details.sistem-kecil .ringkas, details.sistem-kecil .status, details.sistem-kecil ul.bukti { padding-bottom: 10px; max-width: 70ch; }
+details.sistem-kecil .status { color: var(--muted); font-size: 0.88rem; }
+.hint, .kira { color: var(--muted); font-size: 0.82rem; }
+
+ol.log { margin-top: 20px; display: grid; gap: 26px; }
+ol.log li { border-left: 1px solid var(--line); padding-left: 18px; }
+.tarikh { color: var(--muted); font-size: 0.84rem; }
+ol.log h3 { font-size: 1.04rem; margin-top: 4px; }
+ul.butiran { margin-top: 8px; display: grid; gap: 6px; max-width: 70ch; }
+ul.butiran li { padding-left: 14px; position: relative; }
+ul.butiran li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 1px; background: var(--line-kuat); }
+
+.kolom { display: grid; gap: 24px; grid-template-columns: 1fr; margin-top: 18px; }
+ul.senarai { display: grid; gap: 8px; padding: 8px 0 12px; }
+ul.senarai li { font-size: 0.9rem; }
+ul.senarai .sub { display: inline; margin-left: 6px; }
+ul.daftar-skill { margin-top: 18px; display: grid; gap: 14px; }
+ul.daftar-skill li { border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.kategori { display: flex; flex-wrap: wrap; gap: 4px 12px; justify-content: space-between; }
+
+.dokumen h2 { font-size: 1.3rem; margin-top: 30px; }
+.dokumen h3 { font-size: 1.05rem; margin-top: 22px; }
+.dokumen h4, .dokumen h5 {
+  font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  font-family: system-ui, sans-serif; margin-top: 20px;
+}
+.dokumen p, .dokumen li { max-width: 72ch; }
+.dokumen p + p { margin-top: 10px; }
+.dokumen ul, .dokumen ol { margin-top: 10px; display: grid; gap: 7px; }
+.dokumen ul li { padding-left: 14px; position: relative; }
+.dokumen ul li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 1px; background: var(--line-kuat); }
+.dokumen ol { list-style: decimal; padding-left: 22px; color: var(--text); }
+.dokumen table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.88rem; }
+.dokumen th, .dokumen td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.dokumen th { color: var(--muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.dokumen code { font-family: "Roboto Mono", ui-monospace, monospace; font-size: 0.86em; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
+
+footer.kaki { margin-top: 44px; border-top: 3px double var(--line-kuat); padding-top: 16px; color: var(--muted); font-size: 0.86rem; }
+footer.kaki p + p { margin-top: 8px; }
+footer.kaki code { font-family: "Roboto Mono", ui-monospace, monospace; color: var(--text); font-size: 0.84rem; }
+
+@media (min-width: 760px) {
+  :root { --langit: 34px; }
+  .kolom { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 759px) {
+  nav.bahagian { display: none; }
+  nav.bawah {
+    display: grid; grid-template-columns: repeat(6, 1fr); position: fixed;
+    left: 0; right: 0; bottom: 0; z-index: 6;
+    background: var(--surface); border-top: 1px solid var(--line-kuat);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  nav.bawah a {
+    display: grid; justify-items: center; align-content: center; gap: 5px;
+    min-height: var(--nav-bawah); font-size: 0.74rem; letter-spacing: 0.02em;
+  }
+  .wrap { padding-bottom: calc(var(--nav-bawah) + 56px); }
+  footer.kaki { margin-top: 32px; }
+}
+@media (max-width: 860px) {
+  table.job thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  table.job, table.job tbody, table.job tr, table.job td { display: block; width: 100%; }
+  table.job tr { border-bottom: 1px solid var(--line); }
+  table.job td {
+    display: grid; grid-template-columns: 8.5rem 1fr; gap: 4px 12px; border: 0; padding: 9px 14px;
+  }
+  table.job td::before { content: attr(data-label); color: var(--muted); font-size: 0.78rem; letter-spacing: 0.04em; }
+  table.job td:first-child { padding-top: 14px; }
+  table.job td:last-child { padding-bottom: 14px; }
+  table.job tr[hidden] { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+.tema, .tapis button, details > summary, nav.bahagian a, nav.bawah a { transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease; }
+
+</style>
+</head>
+<body>
+<a class="skip" href="#kandungan">Lompat ke kandungan</a>
+<div class="wrap" id="kandungan">
+
+  <header class="masthead">
+    <div class="atas">
+      <div>
+        <h1>Skill dipasang</h1>
+        <p class="lede">Arahan kerja yang dimuatkan sebelum tugas bermula, ikut kategori.</p>
+      </div>
+      <button class="tema" id="tema" type="button" aria-pressed="false">Tema gelap</button>
+    </div>
+    <div class="meta">
+      <span>Dijana 22 Sep 2026 11:11</span>
+      <span>24 job · 45 skrip · 132 skill</span>
+      <span>Linux aarch64 · Termux 0.119.0-beta.3</span>
+      <span>Ruang lapang 150.2 GB</span>
+    </div>
+  </header>
+
+  <nav class="bahagian" aria-label="Halaman papan">
+    <ul>
+        <li><a href="index.html">Papan</a></li>
+        <li><a href="job.html">Job</a></li>
+        <li><a href="sistem.html">Sistem</a></li>
+        <li><a href="log.html">Rekod</a></li>
+        <li><a href="skrip.html">Skrip</a></li>
+        <li><a href="skill.html" aria-current="page">Skill</a></li>
+    </ul>
+  </nav>
+  <section id="skill">
+    <div class="kepala">
+      <h2>Skill dipasang</h2>
+      <p class="label">132 skill · 22 kategori</p>
+    </div>
+    <p class="nota">Skill ialah arahan kerja yang dimuatkan sebelum sesuatu tugas bermula. Kategori anti-slop memaksa kerja laman web ikut peraturan reka bentuk.</p>
+    <ul class="daftar-skill">
+        <li>
+          <p class="kategori"><span class="nama">productivity</span><span class="kira">27 skill</span></p>
+          <p class="sub">airtable, cavecrew, caveman, caveman-commit, caveman-compress, caveman-help, caveman-review, caveman-stats, digital-product-selling, docx, google-oauth-headless, google-sheets-service-account, google-workspace, hermes-dashboard, maps, nano-pdf, notion, ocr-and-documents, pdf, powerpoint, spa-content-extraction, static-site-hosting, teams-meeting-pipeline, termux-device-control, termux-web-hosting, web-scrape-to-excel, xlsx</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">creative</span><span class="kira">18 skill</span></p>
+          <p class="sub">architecture-diagram, ascii-art, ascii-video, baoyu-infographic, claude-design, comfyui, design-md, excalidraw, humanizer, manim-video, openscad-3d-print, openscad-3d-printing, p5js, popular-web-designs, pretext, sketch, songwriting-and-ai-music, touchdesigner-mcp</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">software-development</span><span class="kira">12 skill</span></p>
+          <p class="sub">dogfood, hermes-agent-skill-authoring, node-inspect-debugger, plan, python-debugpy, requesting-code-review, scrapling-termux-setup, simplify-code, spike, static-site-verification, systematic-debugging, test-driven-development</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">research</span><span class="kira">11 skill</span></p>
+          <p class="sub">arxiv, blogwatcher, bursa-analyst, bursa-trading, free-market-data-api, klse-stock-analysis, llm-wiki, polymarket, research-paper-writing, service-recon-and-profiles, site-recon-from-termux</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">media</span><span class="kira">7 skill</span></p>
+          <p class="sub">ai-video-generation, ai-video-pipeline, gif-search, nexabot-ai-generation, songsee, video-transcription, youtube-content</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">anti-slop</span><span class="kira">6 skill</span></p>
+          <p class="sub">antislop, antislop-code, antislop-copywriting, antislop-human, antislop-layoutmobile, antislop-ui</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">autonomous-ai-agents</span><span class="kira">6 skill</span></p>
+          <p class="sub">claude-code, codex, computer-use, hermes-agent, hermes-messaging-gateway, opencode</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">github</span><span class="kira">6 skill</span></p>
+          <p class="sub">codebase-inspection, github-auth, github-code-review, github-issues, github-pr-workflow, github-repo-management</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">social-media</span><span class="kira">6 skill</span></p>
+          <p class="sub">product-opportunity-finder, social-commerce, threads-hook-thread, tiktok-follower-growth, xurl, youtube-shorts-clipper</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">mlops</span><span class="kira">5 skill</span></p>
+          <p class="sub">evaluation, huggingface-hub, inference, local-ai-router, models</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">termux-android</span><span class="kira">5 skill</span></p>
+          <p class="sub">macrodroid-macro-authoring, nfc-web-control, termux-background-services, termux-device-automation, termux-model-feasibility</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">apple</span><span class="kira">4 skill</span></p>
+          <p class="sub">apple-notes, apple-reminders, findmy, imessage</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">automation</span><span class="kira">3 skill</span></p>
+          <p class="sub">github-activity-automation, tiktok-affiliate-automation, web-status-watchdog</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">finance</span><span class="kira">3 skill</span></p>
+          <p class="sub">automated-trading-bot, trading-bot-automation, trading-bot-development</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">messaging</span><span class="kira">3 skill</span></p>
+          <p class="sub">hermes-gateway-ops, social-commerce-automation, telegram-bot-automation</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">security</span><span class="kira">2 skill</span></p>
+          <p class="sub">kali-pentest, web-security-audit</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">shopping</span><span class="kira">2 skill</span></p>
+          <p class="sub">ecommerce-price-research, marketplace-link-harvesting</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">trading</span><span class="kira">2 skill</span></p>
+          <p class="sub">gold-trading-strategy, trading-bot-backtesting</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">email</span><span class="kira">1 skill</span></p>
+          <p class="sub">himalaya</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">mobile</span><span class="kira">1 skill</span></p>
+          <p class="sub">termux-android-control</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">note-taking</span><span class="kira">1 skill</span></p>
+          <p class="sub">obsidian</p>
+        </li>
+        <li>
+          <p class="kategori"><span class="nama">smart-home</span><span class="kira">1 skill</span></p>
+          <p class="sub">openhue</p>
+        </li>
+    </ul>
+  </section>
+
+  <footer class="kaki">
+    <p>Sumber data: folder cron Hermes, folder skrip, folder skill dan folder kerja dalam peranti ini. Tiada angka yang ditulis tangan.</p>
+    <p>Kemas kini selepas kerja baru: tambah catatan dalam <code>data/log.json</code>, kemudian jalankan <code>bash ~/hermes_dashboard/rebuild.sh</code>. Sebab setiap keputusan rupa ada dalam <a href="design.html">arahan reka bentuk</a>.</p>
+  </footer>
+
+</div>
+<nav class="bawah" aria-label="Navigasi utama">
+
+    <a href="index.html"><span class="titik" aria-hidden="true"></span>Papan</a>
+    <a href="job.html"><span class="titik" aria-hidden="true"></span>Job</a>
+    <a href="sistem.html"><span class="titik" aria-hidden="true"></span>Sistem</a>
+    <a href="log.html"><span class="titik" aria-hidden="true"></span>Rekod</a>
+    <a href="skrip.html"><span class="titik" aria-hidden="true"></span>Skrip</a>
+    <a href="skill.html" aria-current="page"><span class="titik" aria-hidden="true"></span>Skill</a>
+</nav>
+<script>
+(function () {
+  var html = document.documentElement;
+  var butangTema = document.getElementById('tema');
+  function labelTema() {
+    butangTema.textContent = html.getAttribute('data-tema') === 'gelap' ? 'Tema gelap' : 'Tema cerah';
+  }
+  try {
+    var simpan = localStorage.getItem('papan-tema');
+    if (simpan === 'cerah' || simpan === 'gelap') {
+      html.setAttribute('data-tema', simpan);
+      butangTema.setAttribute('aria-pressed', simpan === 'cerah' ? 'true' : 'false');
+    }
+  } catch (e) {}
+  labelTema();
+  butangTema.addEventListener('click', function () {
+    var seterusnya = html.getAttribute('data-tema') === 'gelap' ? 'cerah' : 'gelap';
+    html.setAttribute('data-tema', seterusnya);
+    butangTema.setAttribute('aria-pressed', seterusnya === 'cerah' ? 'true' : 'false');
+    labelTema();
+    try { localStorage.setItem('papan-tema', seterusnya); } catch (e) {}
+  });
+})();
+
+</script>
+</body>
+</html>
